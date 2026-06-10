@@ -1,43 +1,34 @@
 # Model Memory
 
-Persistent memory for Claude Code: **knowledge** (permanent) + **session** (temporary).
+Persistent memory for [Claude Code](https://claude.ai/download). Two tiers — **knowledge** (permanent facts) + **session** (current task state) — stored as plain Markdown files.
 
-## Why You Need This
+## Why use it
 
-Claude Code forgets everything between sessions and after context compaction. This tool gives it persistent memory.
+Claude Code forgets everything between sessions and after context compaction. This gives it a memory that survives.
 
-- **Long-term knowledge** (`knowledge.md`): Architecture, gotchas, patterns, configs
-- **Session memory** (`session.md`): Plans, todos, progress — survives compaction
-- **Session isolation**: Multiple CLI/agents can work in parallel without conflicts
-
-**Benefits**: No rediscovering the same patterns. Faster debugging. Lower token usage. Work resumes seamlessly after interruptions.
+- **Knowledge** — architecture decisions, gotchas, patterns, configs. Write once, recall forever. No rediscovering the same PostgreSQL connection string or Docker incantation.
+- **Session** — task plans, todos, progress, blockers. Survives context compaction. Work resumes where it left off.
+- **Isolation** — multiple CLI instances or agents work in parallel without conflicting.
 
 ## Quick Start
 
-1. Copy `.claude/` folder to your project
-2. Add `CLAUDE.md` contents to your project instructions
-3. Done — Claude will automatically save discoveries and track work
+```bash
+git clone https://github.com/itohnobue/model-memory-claude-code
+cp -R model-memory-claude-code/.claude /path/to/your/project/
+```
 
-## Features
+Then add the contents of the included instructions to your project's `CLAUDE.md`.
 
-- **Two-tier storage**: Permanent knowledge + temporary session state
-- **Session isolation**: Multiple sessions can coexist (v5.1+)
-- **18 commands**: 6 for knowledge, 12 for session
-- **Word boundary search**: "log" won't match "catalog"
-- **Field weighting**: Category matches rank higher than content
-- **Auto-recovery**: Session pointer survives context compaction
-- **Human-readable**: Plain Markdown files
-- **No database**: Pure file-based
-- **Zero setup**: Auto-installs Python via uv
-- **Cross-platform**: macOS, Linux, Windows
+## Commands
 
-## Categories
+```bash
+.claude/tools/memory.sh add gotcha "psycopg2 needs libpq-dev" --tags postgres,ubuntu
+.claude/tools/memory.sh search "postgres connection"
+.claude/tools/memory.sh session add todo "Implement auth middleware" --status pending
+.claude/tools/memory.sh session show
+```
 
-**Knowledge (10):** `architecture`, `discovery`, `pattern`, `gotcha`, `config`, `entity`, `decision`, `todo`, `reference`, `context`
-
-**Session (7):** `plan`, `todo`, `progress`, `note`, `context`, `decision`, `blocker`
-
-**Statuses (4):** `pending`, `in_progress`, `completed`, `blocked`
+18 commands total (6 knowledge, 12 session). See `CLAUDE.md` for full usage.
 
 ## License
 
