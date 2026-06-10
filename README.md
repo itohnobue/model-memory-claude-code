@@ -15,9 +15,10 @@ Claude Code forgets everything between sessions and after context compaction. Th
 ```bash
 git clone https://github.com/itohnobue/model-memory-claude-code
 cp -R model-memory-claude-code/.claude /path/to/your/project/
+cp model-memory-claude-code/CLAUDE.md /path/to/your/project/
 ```
 
-Then add the contents of the included instructions to your project's `CLAUDE.md`.
+If you already have a `CLAUDE.md`, append this one instead of overwriting. This teaches Claude Code how and when to use the memory system.
 
 ## Commands
 
